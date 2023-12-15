@@ -61,6 +61,12 @@ int main() {
     //bodies.emplace_back(1.25e-22, Vec(0.229, 0.96, -0.00018264), Vec(-2.0e-2, 1.295755e-2, 4.9040e-4)); // Voyager 5
 
 
+    //Burrau's problem
+    //bodies.emplace_back(5000, Vec(0.0,0.0,0.0), Vec(0.0,0.0,0.0));  
+    //bodies.emplace_back(4000, Vec(3.0,0.0,0.0), Vec(0.0,0.0,0.0));  
+    //bodies.emplace_back(3000, Vec(0.0,4.0,0.0), Vec(0.0,0.0,0.0)); 
+    
+
     //int integr_num = choose_integrator();
     //Integrator_struct integr_struct = integrator(integr_num);   //Contains name and the integrator function
     //IntegratorFunction integrator_func = integr_struct.integrator_func;
