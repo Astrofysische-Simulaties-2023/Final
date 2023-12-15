@@ -87,7 +87,7 @@ double calcR(vector<Body>& bodies, int numspacecrafts, int g) {
 
     for (int spacecraft = 0; spacecraft < numspacecrafts; ++spacecraft) {
         // Calculate distance from the current spacecraft to body g
-        Vec dr = bodies[g].r - bodies[spacecraft].r;
+        Vec dr = bodies[g].r - bodies[bodies.size()-spacecraft-1].r;
         double distance = dr.norm();
         closestDistance = min(closestDistance, distance);
     }
