@@ -14,9 +14,7 @@
 using namespace std;
 
 // double G = 6.67e-11; // m^3 s^-2 kg^-1
-//double G = 2.6644e-3; // AE/M_earth * (km/s)^2, AE = 149.597.870.700 m, M_earth = 5.972e24 kg
-//double G = 3.98589e5; // km/M_earth * (km/s)^2
-double G = 8.887e-10; // AE/M_earth * (AE/day)^2, day = 86400 s
+double G = 8.887e-10; // AE/M_earth * (AE/day)^2 , day = 86400 s, AE = 149.597.870.700 m, M_earth = 5.972e24 kg
 
 class Body {
 public:
