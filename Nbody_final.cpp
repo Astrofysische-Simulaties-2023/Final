@@ -88,8 +88,10 @@ int main() {
 
     int no_driver_functions = 0; // number of driver functions
 
-    double V1 = bodies[8].v.norm(); // velocity of a spacecraft
-    double V2 = bodies[9].v.norm();
+    double V1 = bodies[bodies.size()-3].v.norm();; // velocity of a spacecraft
+    double V2 = bodies[bodies.size()-2].v.norm();;
+    double V3 = bodies[bodies.size()-1].v.norm();;
+    
     double R_Jup = calcR(bodies,numspacecrafts, 5); // closest distance of a spacecraft to a body
     double R_Sat = calcR(bodies,numspacecrafts, 6);    
 
@@ -143,8 +145,9 @@ int main() {
         E = update_E(bodies);
         dE = (E-E_0)/E_0;
 
-        V1 = bodies[8].v.norm(); // velocity voyager 1
-        V2 = bodies[9].v.norm(); // velocity voyager 2
+        V1 = bodies[bodies.size()-3].v.norm(); // velocity voyager 1
+        V2 = bodies[bodies.size()-2].v.norm(); // velocity voyager 2
+        V3 = bodies[bodies.size()-1].v.norm(); // velocity voyager 3
 
         R_Jup = calcR(bodies,numspacecrafts, 5);; // closest distance of spacecrafts to jupiter
         R_Sat = calcR(bodies,numspacecrafts, 6);; // closest distance of spacecrafts to saturnus
