@@ -90,9 +90,9 @@ int main() {
     double dE = 0.0;
 
     //adaptive update_dt
-    double power  = 0.5; //power law for update_dt
+    double power  = 0.5; //power law (update_dt)
     double min_dt = 0.005;  // Minimum allowed time step
-    double Emax = 1e-12; // Max allowed energy error for each dt step
+    double Emax = 1e-12; // Max allowed energy error for each dt step (update_dt2)
 
 
     //When using velocity verlet, calculate the acceleration a first time.
