@@ -93,11 +93,12 @@ double calcR(vector<Body>& bodies, int numspacecrafts, int g) { // Calculate clo
 
 
 
-double update_dt(vector<Body>& bodies, vector<Body>& ref, double timestep, double min_dt, double power){ //power law of the normalized acceleration of the bodies
+double update_dt(vector<Body>& bodies, vector<Body>& ref, double timestep, double min_dt, double power, int &no_driver_functions){ //power law of the normalized acceleration of the bodies
     double dt = timestep;
     
     vector<Body> helpref = bodies;
     update_acc(helpref); // acc bodies (at time = t)
+    no_driver_functions += 1;
 
     for (int i = 0; i < bodies.size(); i++) {
         double n = timestep * pow(ref[i].a.norm() / helpref[i].a.norm(), power); // acc (bodies at time =0) / acc bodies (at time = t)
@@ -110,13 +111,14 @@ double update_dt(vector<Body>& bodies, vector<Body>& ref, double timestep, doubl
 }
 
 
-double update_dt2(vector<Body>& bodies, double timestep, double min_dt, double E, double Emax){ //new time step by using a max energy error
+double update_dt2(vector<Body>& bodies, double timestep, double min_dt, double E, double Emax, int &no_driver_functions){ //new time step by using a max energy error
 
     double dt = 2*timestep;
     double Estep = 1;
 
     vector<Body> ref = bodies; 
     update_acc(ref); // acc bodies (at time = t)
+    no_driver_functions += 1;
 
     while (Estep > Emax && dt >= min_dt) { //when the energy error for a specific time step is to big, divide the time step by 2.
         vector<Body> helpref = ref; // bodies (at time = t)
