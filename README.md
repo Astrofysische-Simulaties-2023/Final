@@ -11,6 +11,5 @@ Header file |Description
 [Bodyclass.h](Bodyclass.h) | Contains the astronomical body class, with the appropriate methods (acceleration, energy). <br> Adaptive time step: two methods are implemented. The first using a power of the acceleration. The second trying to minimize the energy difference, using a Forward Euler method.
 [Integrators.h](Integrators.h) | Euler, RK4, Velocity Verlet, Forest Ruth integrators
 [ButcherTableau.h](ButcherTableau.h) | Contains the Butcher Tableau class, with different butcher tableaus for several explicit and implicit integrators. Also contains the general functions that transform a butcher tableau into an integrator. Implicit RK3 and RK5 are implemented in the final program.
-[PartionedTableau.h](PartionedTableau.h) | Contains the Partioned Tableau class, with different partioned tableaus for a variety of partioned symplectic integrators. Also contains the general function that transforms a partioned tableau into an integrator.
 [Choose_integrator.h](Choose_integrator.h) | Methods to choose the integrator as user input.
 
