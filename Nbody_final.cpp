@@ -20,14 +20,14 @@ int main() {
 
     //===== Declare the bodies in our system =====
     vector<Body> bodies; //1977-Sep-06 00:00:00.0000 TDB
-    bodies.emplace_back(332959.936, Vec(2.374359334804984e-3, -4.397509852228428e-3, -6.403727192979392e-5), Vec(8.067422670429710e-6, 3.672787845010753e-8, -2.197171878619823e-7)); // sun 
-    bodies.emplace_back(0.815195, Vec(1.274926136407149E-01, 7.048882120716604E-01,2.362234183952712E-03), Vec(-1.998001176601727E-02, 3.412330568007654E-03, 1.200315569581762E-03)); // venus
-    bodies.emplace_back(0.01230536872, Vec(9.699068156158732e-1,-2.862430064941408e-1, -2.871929438588917e-4), Vec(4.043950282610457e-3, 1.655300393597739e-2, -2.280842502739660e-5)); //moon 
-    bodies.emplace_back(1, Vec(9.693415425602092e-1, -2.888761757432423e-1, -7.064680860064746e-5), Vec(4.590127153526758e-3, 1.643984412273940e-2, 8.985875982417776e-7)); //earth 
-    bodies.emplace_back(0.107449696, Vec(8.823367576696816e-1, 1.186540676671558, 3.201641663305391e-3), Vec(-1.071179986117151e-2, 9.504915586236624e-3, 4.628247779093462e-4)); // mars
-    bodies.emplace_back(317.8377145, Vec(7.023069539386351e-1, 5.044885561956213, -3.650778429292263e-2), Vec(-7.563035000680561e-3, 1.388374806513800e-3, 1.636331181022656e-4)); // jupiter
-    bodies.emplace_back(95.16442042, Vec(-7.191297133554489, 5.703064303254036, 1.860207681470850e-1), Vec(-3.766914204757593e-3, -4.385970133194619e-3, 2.266657950446760e-4)); // saturn
-    bodies.emplace_back(14.5362, Vec(-13.88051911770789, -12.36710557923142, 1.341795439021756e-1), Vec(2.587073048286647e-3, -3.120394186515559e-3, -4.508153960231010e-5)); // uranus
+    //bodies.emplace_back(332959.936, Vec(2.374359334804984e-3, -4.397509852228428e-3, -6.403727192979392e-5), Vec(8.067422670429710e-6, 3.672787845010753e-8, -2.197171878619823e-7)); // sun 
+    //bodies.emplace_back(0.815195, Vec(1.274926136407149E-01, 7.048882120716604E-01,2.362234183952712E-03), Vec(-1.998001176601727E-02, 3.412330568007654E-03, 1.200315569581762E-03)); // venus
+    //bodies.emplace_back(0.01230536872, Vec(9.699068156158732e-1,-2.862430064941408e-1, -2.871929438588917e-4), Vec(4.043950282610457e-3, 1.655300393597739e-2, -2.280842502739660e-5)); //moon 
+    //bodies.emplace_back(1, Vec(9.693415425602092e-1, -2.888761757432423e-1, -7.064680860064746e-5), Vec(4.590127153526758e-3, 1.643984412273940e-2, 8.985875982417776e-7)); //earth 
+    //bodies.emplace_back(0.107449696, Vec(8.823367576696816e-1, 1.186540676671558, 3.201641663305391e-3), Vec(-1.071179986117151e-2, 9.504915586236624e-3, 4.628247779093462e-4)); // mars
+    //bodies.emplace_back(317.8377145, Vec(7.023069539386351e-1, 5.044885561956213, -3.650778429292263e-2), Vec(-7.563035000680561e-3, 1.388374806513800e-3, 1.636331181022656e-4)); // jupiter
+    //bodies.emplace_back(95.16442042, Vec(-7.191297133554489, 5.703064303254036, 1.860207681470850e-1), Vec(-3.766914204757593e-3, -4.385970133194619e-3, 2.266657950446760e-4)); // saturn
+    //bodies.emplace_back(14.5362, Vec(-13.88051911770789, -12.36710557923142, 1.341795439021756e-1), Vec(2.587073048286647e-3, -3.120394186515559e-3, -4.508153960231010e-5)); // uranus
     // spacecrafts 1977-Sep-06 00:00:00.0000 TDB
     bodies.emplace_back(1.208769e-22, Vec(9.703073590971770e-1, -2.864904318339970e-1, 1.066427909013482e-4), Vec(6.691403977335315e-3, 2.202627662224282e-2, 4.216890028880711e-4)); // Voyager 1
     bodies.emplace_back(1.208769e-22, Vec(9.909656753661980e-1, -2.017144553381927e-1, 3.033912016204687e-2), Vec(5.834315231766972e-3, 2.163241124839557e-2, 1.807574968257737e-3)); // Voyager 2
@@ -111,7 +111,7 @@ int main() {
     auto start_time = chrono::high_resolution_clock::now(); // Start timing 
 
 
-    while (bodies[0].t < max_t) {
+    while (max_t - bodies[0].t > dt/2) {
         
         // Output the state of the bodies every ... steps.
         if (stepCounter % outf == 0) {
@@ -125,7 +125,7 @@ int main() {
 
 
         //===== Uncomment this if you want to use adaptive =====
-        //dt =  update_dt(bodies, ref, timestep, min_dt, power, no_driver_functions); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
+        dt =  update_dt(bodies, ref, timestep, min_dt, power, no_driver_functions); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
         //dt = update_dt2(bodies, timestep, min_dt, E, Emax, no_driver_functions); // Use this when using energy accuracy (when energy error for a specific time step is too big, divide the time step by 2)
 
         // Update positions velocities and acceleration of all bodies
