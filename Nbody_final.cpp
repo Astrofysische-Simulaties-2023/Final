@@ -18,6 +18,7 @@ using namespace std;
 
 int main() {
 
+    //===== Declare the bodies in our system =====
     vector<Body> bodies; //1977-Sep-06 00:00:00.0000 TDB
     bodies.emplace_back(332959.936, Vec(2.374359334804984e-3, -4.397509852228428e-3, -6.403727192979392e-5), Vec(8.067422670429710e-6, 3.672787845010753e-8, -2.197171878619823e-7)); // sun 
     bodies.emplace_back(0.815195, Vec(1.274926136407149E-01, 7.048882120716604E-01,2.362234183952712E-03), Vec(-1.998001176601727E-02, 3.412330568007654E-03, 1.200315569581762E-03)); // venus
@@ -67,14 +68,12 @@ int main() {
     //bodies.emplace_back(3000, Vec(0.0,4.0,0.0), Vec(0.0,0.0,0.0)); 
     
 
-    //int integr_num = choose_integrator();
-    //Integrator_struct integr_struct = integrator(integr_num);   //Contains name and the integrator function
-    //IntegratorFunction integrator_func = integr_struct.integrator_func;
+    int integr_num = choose_integrator();                       //Choose the integrator at user input
+    Integrator_struct integr_struct = integrator(integr_num);   //Struct with name and integrator function
+    IntegratorFunction integrator_func = integr_struct.integrator_func;
+    int numberbodies = bodies.size();
 
-    int numspacecrafts = 2;
-    int numberbodies = bodies.size() - numspacecrafts;
-
-    // Time step and simulation time
+    // Initial Values
     double timestep = 0.01; // Max allowed time step
     double dt = timestep; // time step (for adaptive time steps: dt != timestep)
     double max_t = 3000;
@@ -82,35 +81,27 @@ int main() {
     int stepCounter = 0;  
     int outf = 50; // outfile every ... steps 
 
+    //Energy and reference to initial configuration
+    vector<Body> ref = bodies;  // bodies at t=0
+    update_acc(ref);
+    int no_driver_functions = 1; // number of driver function evaluations
     double E_0 = update_E(bodies);
     double E = E_0;
     double dE = 0.0;
-    
-    //update_dt
+
+    //adaptive update_dt
     double power  = 0.5; //power law for update_dt
-    double min_dt = 0.01;  // Minimum allowed time step (for adaptive time steps)
-    //update_dt2
-    double Emax = 1e-12; // Max allowed energy error for each dt step (for adaptive time steps, update_dt2)
+    double min_dt = 0.005;  // Minimum allowed time step
+    double Emax = 1e-12; // Max allowed energy error for each dt step
 
-    int no_driver_functions = 0; // number of driver functions
-
-    double V1 = bodies[bodies.size()-3].v.norm(); // velocity of a spacecraft
-    double V2 = bodies[bodies.size()-2].v.norm();
-    double V3 = bodies[bodies.size()-1].v.norm();
-    
-    //double R_Jup = calcR(bodies,numspacecrafts, 5); // closest distance of a spacecraft to a body
-    //double R_Sat = calcR(bodies,numspacecrafts, 6);    
 
     //When using velocity verlet, calculate the acceleration a first time.
-    //if (integr_num == 3) {  
-        //update_acc(bodies);
-        //no_driver_functions += 1;}
+    if (integr_num == 3) {  
+        update_acc(bodies);
+        no_driver_functions += 1;}
 
-    //update_acc(bodies);  
-    //no_driver_functions += 1;
-
-    //string filename = to_string(numberbodies) + "." + to_string(numspacecrafts) + "_"+ to_string(integr_num)+ "_"+ to_string(dt)+ ".txt";
-    string filename = to_string(numberbodies) + "." + to_string(numspacecrafts) + "_FR_"+ to_string(timestep)+ ".txt";
+    //Write to text file
+    string filename = make_filename(numberbodies, integr_struct.name, dt); 
     cout << "Writing to file '" << filename << "'" << endl;
     ofstream outfile(filename);
     outfile << setprecision(15);
@@ -119,20 +110,13 @@ int main() {
     
     auto start_time = chrono::high_resolution_clock::now(); // Start timing 
 
-    // !!!!!
-    // Use this when using update_dt
-    //vector<Body> ref = bodies;  // bodies at t=0
-    //update_acc(ref);
-
 
     while (numsteps > stepCounter) {
         
-
         // Output the state of the bodies every ... steps.
         if (stepCounter % outf == 0) {
             for (int i = 0; i < bodies.size(); i++) {
-                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << ' ' << R_Jup << ' ' << R_Sat  << ' ' << V1 << ' ' << V2 << ' ' << V3 << '\n';
-                //outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << bodies[i].v.x() << ' ' << bodies[i].v.y() << ' ' << bodies[i].v.z() << '\n';
+                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << ' ' << ' ' << '\n';
             }
         }
 
@@ -140,23 +124,16 @@ int main() {
         stepCounter++;
 
 
-        //dt = update_dt(bodies, ref, timestep, min_dt, power); // Use this when using change in acceleration
+        //===== Uncomment this if you want to use adaptive =====
+        //dt =  update_dt(bodies, ref, timestep, min_dt, power); // Use this when using change in acceleration
         //dt = update_dt2(bodies, timestep, min_dt, E, Emax); // Use this when using energy accuracy
         //no_driver_functions += 1; // both for update_dt1 as update_dt2, we only calculate acceleration once
         
 
-        // Update positions and velocities and acceleration of all bodies
-        //no_driver_functions += integrator_func(bodies, dt);
-        no_driver_functions += update_pos_vel_acc_FR(bodies, dt);
+        // Update positions velocities and acceleration of all bodies
+        no_driver_functions += integrator_func(bodies, dt);
         E = update_E(bodies);
         dE = (E-E_0)/E_0;
-
-        V1 = bodies[bodies.size()-3].v.norm(); // velocity voyager 1
-        V2 = bodies[bodies.size()-2].v.norm(); // velocity voyager 2
-        V3 = bodies[bodies.size()-1].v.norm(); // velocity voyager 3
-
-        R_Jup = calcR(bodies,numspacecrafts, 5);; // closest distance of spacecrafts to jupiter
-        R_Sat = calcR(bodies,numspacecrafts, 6);; // closest distance of spacecrafts to saturnus
     }
 
     auto end_time = chrono::high_resolution_clock::now(); // End timing
@@ -164,7 +141,7 @@ int main() {
 
     outfile << bodies.size() << ' ' << timestep << ' ' << elapsed_time.count() << ' ' << elapsed_time.count()/numsteps << ' '<< no_driver_functions << ' ' << no_driver_functions/elapsed_time.count() << ' '<< no_driver_functions/max_t << ' ' <<'\n';
     outfile.close();
-    cout << "Done writing." << endl;
+    cout << "Done writing." << endl << endl;
 
     cout << "It took " << elapsed_time.count() << " seconds for " << bodies.size() << " bodies." << endl;
     cout << "It took " << elapsed_time.count()/numsteps << " seconds per integration step." << endl;
