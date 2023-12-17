@@ -1,6 +1,11 @@
 #ifndef butchertableau
 #define butchertableau
 
+
+//Butcher tableau for a general integrator
+//Author: Melvin de Bosscher
+//Date: 29/11/2023
+
 #define _USE_MATH_DEFINES
 #include <vector>
 #include <cmath>
