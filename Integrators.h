@@ -88,7 +88,7 @@ int update_pos_vel_acc_VV(vector<Body>& bodies, double dt) {
         bodies[i].v += bodies[i].a * dt/2;
         bodies[i].t += dt;
     }
-    return 2;
+    return 1;
 }
 
 

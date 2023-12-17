@@ -33,7 +33,7 @@ int main() {
     bodies.emplace_back(1.208769e-22, Vec(9.909656753661980e-1, -2.017144553381927e-1, 3.033912016204687e-2), Vec(5.834315231766972e-3, 2.163241124839557e-2, 1.807574968257737e-3)); // Voyager 2
 
 
-    //2023-Jan-01 00:00:00.0000 TDB
+    //2023-Jan-01 
     //bodies.emplace_back(333000, Vec(-9.055145044460892e-3, 9.495765501773467e-5, 2.101594374427968e-4), Vec(9.450438941100025e-7,-8.999856517644221e-6, 5.175772303295750e-8)); // sun 
     //bodies.emplace_back(0.815195, Vec(5.521118597473940e-1, -4.622937696473001e-1, -3.851853938626681e-2), Vec(1.273466166130406e-2, 1.552337997072891e-2, -5.214742484350385e-4)); // venus
     //bodies.emplace_back(1, Vec(-1.793111147418941e-1,9.685804332587541e-1, 1.612991618128246e-4), Vec(-1.721950145453741e-2, -3.058649113379992e-3, -3.172877676994421e-7)); //earth 
@@ -46,7 +46,7 @@ int main() {
     //bodies.emplace_back(17.147646, Vec(29.75180913013332, -2.942716536143852, -6.250608682820173e-1), Vec(2.884027527271555e-4, 3.142669796707304e-3, -7.137268895852339e-5)); // Neptunus
     
 
-    // 2038-Dec-08 00:00:00.0000 TDB
+    // 2038-Dec-08
     //bodies.emplace_back(333000, Vec(0.005637051637579521858, -0.0051392429845828228527, -0.00013812429071061654373), Vec(5.2186034737313050552e-06, 6.7145126859188918367e-06, -1.6448510404081506365e-07)); // sun
     //bodies.emplace_back(0.815195, Vec(0.21723721852153748957, -0.7011156750412541605, -0.02193017346876506915), Vec(0.019221076400216426106, 0.0058215919607687936083, -0.0010286159333626144954)); // venus
     //bodies.emplace_back(1, Vec(0.23629895966615929725, 0.9524973128926194077, -0.00022030166036129269721), Vec(-0.016997330415421379318, 0.0039648862632960732433, -6.2305182597280914753e-07)); //earth 
@@ -84,7 +84,7 @@ int main() {
     //Energy and reference to initial configuration
     vector<Body> ref = bodies;  // bodies at t=0
     update_acc(ref);
-    int no_driver_functions = 1; // number of driver function evaluations
+    int no_driver_functions = 0; // number of driver function evaluations
     double E_0 = update_E(bodies);
     double E = E_0;
     double dE = 0.0;
@@ -125,10 +125,8 @@ int main() {
 
 
         //===== Uncomment this if you want to use adaptive =====
-        //dt =  update_dt(bodies, ref, timestep, min_dt, power); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
-        //dt = update_dt2(bodies, timestep, min_dt, E, Emax); // Use this when using energy accuracy (when energy error for a specific time step is too big, divide the time step by 2)
-        //no_driver_functions += 1; // both for update_dt1 as update_dt2, we only calculate acceleration once
-        
+        //dt =  update_dt(bodies, ref, timestep, min_dt, power, no_driver_functions); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
+        //dt = update_dt2(bodies, timestep, min_dt, E, Emax, no_driver_functions); // Use this when using energy accuracy (when energy error for a specific time step is too big, divide the time step by 2)
 
         // Update positions velocities and acceleration of all bodies
         no_driver_functions += integrator_func(bodies, dt);

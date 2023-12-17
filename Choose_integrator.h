@@ -47,11 +47,11 @@ struct Integrator_struct {
 };
 
 
-string make_filename(int numberbodies, string integr_name, double dt) {
+string make_filename(int numberbodies, string integr_name, double dt) {     //filename shows number of bodies, integrator name and timestep (e.g. 1e-2)
     std::stringstream timestep_stream;
     timestep_stream << std::fixed << std::setprecision(1) << log(dt)/log(10);
     std::string timestep_string = timestep_stream.str();
-    string filename = to_string(numberbodies) + "body_" + integr_name + "_dt_" + timestep_string + ".txt";
+    string filename = to_string(numberbodies) + "body_" + integr_name + "_dt_1e" + timestep_string + ".txt";
     return filename;
 }
 
