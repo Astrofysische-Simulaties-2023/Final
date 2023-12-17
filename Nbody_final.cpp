@@ -12,7 +12,7 @@
 #include "Integrators.h"
 #include "Vec.h"
 #include "ButcherTableau.h"
-#include "choose_integrator.h"
+#include "Choose_integrator.h"
 
 using namespace std;
 
