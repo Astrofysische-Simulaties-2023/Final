@@ -105,7 +105,7 @@ int main() {
     cout << "Writing to file '" << filename << "'" << endl;
     ofstream outfile(filename);
     outfile << setprecision(15);
-    outfile << "Time" << ' ' << "Xpos" << ' ' << "Ypos" << ' ' << "Zpos" << ' ' << "E" << ' ' << "dE" << '\n';
+    outfile << "Time" << ' ' << "Xpos" << ' ' << "Ypos" << ' ' << "Zpos" << ' ' << "E" << ' ' << "dE" << ' ' << "dt" << '\n';
 
     
     auto start_time = chrono::high_resolution_clock::now(); // Start timing 
@@ -116,7 +116,7 @@ int main() {
         // Output the state of the bodies every ... steps.
         if (stepCounter % outf == 0) {
             for (int i = 0; i < bodies.size(); i++) {
-                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << ' ' << ' ' << '\n';
+                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << ' ' << '\n';
             }
         }
 
