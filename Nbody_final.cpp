@@ -111,7 +111,7 @@ int main() {
     auto start_time = chrono::high_resolution_clock::now(); // Start timing 
 
 
-    while (numsteps > stepCounter) {
+    while (bodies[0].t < max_t) {
         
         // Output the state of the bodies every ... steps.
         if (stepCounter % outf == 0) {
