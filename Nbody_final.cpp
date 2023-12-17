@@ -116,7 +116,7 @@ int main() {
         // Output the state of the bodies every ... steps.
         if (stepCounter % outf == 0) {
             for (int i = 0; i < bodies.size(); i++) {
-                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << ' ' << '\n';
+                outfile << bodies[i].t << ' ' << bodies[i].r.x() << ' ' << bodies[i].r.y() << ' ' << bodies[i].r.z() << ' ' << E << ' ' << dE << ' ' << dt << '\n';
             }
         }
 
