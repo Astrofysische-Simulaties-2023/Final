@@ -125,7 +125,7 @@ int main() {
 
 
         //===== Uncomment this if you want to use adaptive =====
-        dt =  update_dt(bodies, ref, timestep, min_dt, power, no_driver_functions); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
+        //dt =  update_dt(bodies, ref, timestep, min_dt, power, no_driver_functions); // Use this when using change in acceleration (power law of the normalized acceleration of the bodies)
         //dt = update_dt2(bodies, timestep, min_dt, E, Emax, no_driver_functions); // Use this when using energy accuracy (when energy error for a specific time step is too big, divide the time step by 2)
 
         // Update positions velocities and acceleration of all bodies
