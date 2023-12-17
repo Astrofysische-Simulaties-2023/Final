@@ -88,18 +88,18 @@ int main() {
     
     //update_dt
     double power  = 0.5; //power law for update_dt
-    double min_dt = 0.01;  // Minimum allowed time step
+    double min_dt = 0.01;  // Minimum allowed time step (for adaptive time steps)
     //update_dt2
-    double Emax = 1e-12; // Max allowed energy error for each dt step
+    double Emax = 1e-12; // Max allowed energy error for each dt step (for adaptive time steps, update_dt2)
 
     int no_driver_functions = 0; // number of driver functions
 
-    double V1 = bodies[bodies.size()-3].v.norm();; // velocity of a spacecraft
-    double V2 = bodies[bodies.size()-2].v.norm();;
-    double V3 = bodies[bodies.size()-1].v.norm();;
+    double V1 = bodies[bodies.size()-3].v.norm(); // velocity of a spacecraft
+    double V2 = bodies[bodies.size()-2].v.norm();
+    double V3 = bodies[bodies.size()-1].v.norm();
     
-    double R_Jup = calcR(bodies,numspacecrafts, 5); // closest distance of a spacecraft to a body
-    double R_Sat = calcR(bodies,numspacecrafts, 6);    
+    //double R_Jup = calcR(bodies,numspacecrafts, 5); // closest distance of a spacecraft to a body
+    //double R_Sat = calcR(bodies,numspacecrafts, 6);    
 
     //When using velocity verlet, calculate the acceleration a first time.
     //if (integr_num == 3) {  
