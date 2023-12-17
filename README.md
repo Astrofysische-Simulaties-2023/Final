@@ -1,7 +1,8 @@
 # Contents
 
 
-To run the C++ code, use NBody_final.cpp. 
+To run the C++ code, use NBody_final.cpp. <br>
+To use adaptive timestep, uncomment line 128 or 129 (for the first, or the second method).
 
 ## Header Files
 
